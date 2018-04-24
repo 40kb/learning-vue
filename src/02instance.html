@@ -1,0 +1,68 @@
+<div id="app">
+  {{ message }}
+
+  <button v-on:click="logThis">log this</button>
+  <button v-on:click="logThis2">log this2</button>
+</div>
+
+<script src="vue.js"></script>
+<script>
+
+  var data = {
+    message: 'Lorem ipsum dolor sit amet.'
+  }
+
+  var vm = new Vue({
+    el: '#app',
+    data: data,
+    methods: {
+      logThis: () => {
+        // 不要用 arrow function, this 指向到它parent object -- window object
+        console.log(this)
+      },
+
+      logThis2: function() {
+        // 这里指向到vm本身
+        console.log(this)
+      }
+    },
+  });
+</script>
+
+<!--
+
+  **Vue components are essentially extended Vue instances.**
+
+  **Each Vue instance proxies all the properties found in its `data` object**
+
+  **It should be noted that only these proxied properties are reactive. **
+
+  **Vue instances expose a number of useful instance properties and methods. - prefixed with `$`**
+  ex: $el, $data, $watch()
+
+  **Don’t use arrow functions on an instance property or callback:**
+    var vm = new Vue({
+      ...
+      methods: {
+        logThis: () => {
+          // 不要用 arrow function, this 指向到它parent object
+          console.log(this)
+        },
+
+        logThis2: function() {
+          // 这里指向到vm本身
+          console.log(this)
+        }
+      }
+    })
+
+    // 下面的例子，this指向了window object
+    vm.$watch('a', newVal => this.myMethod())
+
+
+  ## Instance Lifecycle Hooks
+    - All lifecycle hooks are called with their `this` context pointing to the Vue instance invoking it
+    - Vuejs 没有 controller 的概念
+    - Your custom logic for a component would be split among these lifecycle hooks.
+    - 常用到的会是：created(), mounted(), updated(), destroyed()
+-->

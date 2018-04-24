@@ -1,0 +1,222 @@
+<div id="app">
+
+  <!-- Using Components
+
+    #Registration
+
+    前面我们知道可以通过下面的方式来创建Vue instance
+    ```
+      new Vue({
+        el: '#some-element',
+      })
+    ```
+
+    可以通过类似的方式来register a global component
+    Vue.component('my-component', {
+      // options
+    })
+
+    **
+    * 注意创建 component的时候，Vue 并不强制要求你按照W3C rules创建custom tag的命名规则来
+    * 不过强烈建议你去这么做！因为
+    * following this convention is considered good practice.
+    **
+
+    一旦创建完之后，就可以作为custom element来在instance' template里面使用
+    要注意的是：Make sure the component is registered before you instantiate the root Vue instance.
+    ```
+      // register
+      Vue.component('my-component', {
+        template: '<div>A custom component!</div>'
+      })
+      // create a root instance
+      new Vue({
+        el: '#example'
+      })
+    ```
+
+    在 instance' template 里：
+    <div id="example">
+      <my-component></my-component>
+    </div>
+
+    会渲染得到：
+    <div id="example">
+      <div>A custom component!</div>
+    </div>
+
+
+    #Local Registration
+    你并不需要把所有的component都注册为全局的，可以通过 'component instance options'
+    把组件创建在某个instance/component内
+    ```
+      var Child = {
+        template: '<div>A custom component!</div>'
+      }
+      new Vue({
+        // ...
+        components: {  // 这个组件只能在当时实力内使用
+          // <my-component> will only be available in parent's template
+          'my-component': Child
+        }
+      })
+    ```
+
+
+    #DOM Template Parsing Caveats
+    当你使用DOM作为你的template的时候（el option to mount an element with existing content）
+    需要注意会遇到一些限制！查阅官方文档
+
+
+    #`data` Must Be a Function
+    很多你在Vue Constructor里使用的选项，可以在component instances里使用！
+    需要注意一个特例 `data` option, 一定要为function:
+    ```
+      你在Vue instance里可以：
+        data: {}
+
+        data: function() {
+          return {}
+        }
+
+      但是你在component instances里，必须为：(为什么去看官方文档)
+        data: function() {
+          return {}
+        }
+    ```
+
+    #Composing Components
+      你经常会遇到这些情况：
+      同一个Vue instance 内的两个component有时候需要通讯（共享数据）
+      parent(vue instance)需要把数据传给children(components)
+      children(components)需要告诉parent(vue instance)某些数据发送了变更
+
+      Parent - pass `Props` -> Children
+      Children - Emit Events -> Parent
+
+
+      #Passing Data with Props
+      Every component instance has its own isolated scope.
+      Data can be passed down to child components using `props`.
+      A `prop` is a custom attribute for passing information from parent components.
+
+      ```
+        Vue.component('child', {
+          // declare the props
+          props: ['message', 'name', ...],
+          // just like data, the prop can be used inside templates
+          // and is also made available in the vm as this.message
+          template: '<span>{{ message }} - {{name}}</span>'
+
+          // props 有点像VM 里的data
+        })
+
+        <parent>
+          <child message="传递数据通过props" name="byer" ...></child>
+        <parent>
+      ```
+
+      #camelCase vs. kebab-case
+      ```
+        Vue.component('child', {
+          // camelCase in JavaScript
+          props: ['myMessage'],
+          template: '<span>{{ myMessage }}</span>'
+        })
+
+        // kebab-case in HTML
+        <child my-message="hello!"></child>
+      ```
+
+      #Dynamic Props
+      上面我们是通过 attribute 直接把数据传入 props
+      有些时候我们需要传入parent data object 里面的动态数据！
+      通过 v-bind:propName='parent data property'，例如：
+
+        你component props:
+        props: ['name', 'age'],
+        template: `<span>{{ name }} - {{ age }}</span>`
+
+        你parent data:
+        data : {
+          name: 'byer',  // 数据可能来自API，或者用户输入
+          year: 19
+        }
+
+        绑定：
+        <child v-bind:name="name" v-bind:age="year"></child>
+
+
+      #Literal vs. Dynamic
+      有时候你想给组件传入数字，
+
+      如果你通过下面的方式：组件得到的是string
+      // this passes down a plain string "1"
+      <comp some-prop="1"></comp>
+
+      这种情况想你需要使用：v-bind
+      this passes down an actual number
+      <comp v-bind:some-prop="1"></comp>
+
+      为啥？- 因为 `v-bind` 接的是表达式：v-bind:attr/prop='expression'
+
+
+      #One-Way Data Flow
+      所有的 `Props` 都是 `one-way-down` binding: (parent to child)
+        就是说parent改变的时候会update child, 但是 child 发生改变不会去update parent!
+        这是防止child在某些时候会mutating the parent’s state, 造成很难debug!
+
+      另外，每当parent component update的时候，child component 里面的所有的props都会刷新为最后更新的值
+      所以说你不应该去改变child component里面prop的值！
+
+      通常下面两种情况会去改变prop的值：
+        1.
+        2.
+      （自行阅读官方文档，并尝试找出这两种实际开发的情景）
+
+
+      #Prop Validation
+      可以对prop做校验，例如：type、required:true/false、default value
+      ```
+        Vue.component('example', {
+          props: {
+            propA: Number,            // basic type check
+            propB: [String, Number]   // multiple possible types
+            propC: {                  // require
+              type: String,
+              required: true
+            },
+            propD: {                  // default value
+              type: Number,
+              default: 1000
+            }
+          }
+        })
+      ```
+
+      ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -->
+</div>
+
+<script src="vue.js"></script>
+<script>
+
+</script>

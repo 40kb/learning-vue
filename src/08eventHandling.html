@@ -1,0 +1,166 @@
+<div id="app">
+
+  <!-- Listening to Events
+    使用 `v-on` 去监听DOM evnets.
+    例如：v-on:click
+  -->
+
+  <!-- v-on:click="single js expression"
+    可以接一条简单的JS语句：
+    <div v-on:click="counter += 1"></div>
+
+    在你 VM 里面：
+      var example1 = new Vue({
+        el: '#example-1',
+        data: {
+          counter: 0
+        }
+      })
+  -->
+
+  <!-- Method Event Handlers
+    接一个回调函数
+    <div v-on:click="greet"></div>
+
+    在你 VM 里面：
+      // define methods under the `methods` object
+      methods: {
+        greet: function (event) {
+          // `this` inside methods points to the Vue instance
+          alert('Hello ' + this.name + '!')
+          // `event` is the native DOM event
+          if (event) {
+            alert(event.target.tagName)
+          }
+        }
+      }
+  -->
+
+
+  <!-- Methods in Inline Handlers
+    可以直接调用这个回调函数：（可以传入参数）
+    <div v-on:click="say('hi')"></div>
+
+    在你 VM 里面：
+      new Vue({
+        el: '#example-3',
+        methods: {
+          say: function (message) {
+            alert(message)
+          }
+        }
+      })
+
+    有时候你需要访问某个元素的默认event（original DOM event）
+    你可以通过这种方式，把 `$event` 变量传进去
+    <button v-on:click="warn('Form cannot be submitted yet.', $event)">Submit</button>
+
+    在你 VM 里面：
+      // ...
+      methods: {
+        warn: function (message, event) {
+          // now we have access to the native event
+          if (event) event.preventDefault()
+          alert(message)
+        }
+      }
+  -->
+
+
+  <!-- Event Modifiers
+    一些常用的操作比如：event.preventDefault()、event.stopPropagation()
+    你会经常用到，为了保持 event callback 的简洁（只负责处理业务逻辑）
+    Vue 提供了 Event Modifiers 这个概念 - Event 后面紧跟一个 . + modifer, 例如：
+      - .stop      -> v-on:click.stop     // e.stopPropagation()
+      - .prevent   -> v-on:click.prevent  // e.preventDefault()
+      - .capture   -> v-on:click.capture
+      - .self      -> v-on:click.self
+      - .once      -> v-on:click.once
+
+    ```
+      // the click event's propagation will be stopped
+      <a v-on:click.stop="doThis"></a>
+
+      // the submit event will no longer reload the page
+      <form v-on:submit.prevent="onSubmit"></form>
+
+      // modifiers can be chained
+      <a v-on:click.stop.prevent="doThat"></a>
+
+      // just the modifier
+      <form v-on:submit.prevent></form>
+
+      // use capture mode when adding the event listener
+      <div v-on:click.capture="doThis">...</div>
+
+      // only trigger handler if event.target is the element itself
+      // i.e. not from a child element
+      <div v-on:click.self="doThat">...</div>
+
+      // 2.1.4版本之后还引进了 **注意：`.once` 也可以用用在 component event 上！**
+      // the click event will be triggered at most once
+      <a v-on:click.once="doThis"></a>
+    ```
+  -->
+
+
+    <!-- Key Modifiers
+      Vue 同样也提供了一些处理key event 的modifiers
+
+      比如：在处理 keyboard event 的时候经常需要知道点击了那个key(key code)
+
+      // only call vm.submit() when the keyCode is 13
+      <input v-on:keyup.13="submit">
+
+      当然要你去记住所有的keyCode是没必要的，Vue为常用到的keyCode提供了aliases
+        - .enter
+        - .tab
+        - .delete (captures both “Delete” and “Backspace” keys)
+        - .esc
+        - .space
+        - .up
+        - .down
+        - .left
+        - .right
+
+      You can also define custom key modifier aliases via the global config.keyCodes object:
+      // enable v-on:keyup.f1
+      Vue.config.keyCodes.f1 = 112
+    -->
+
+
+    <!-- Modifier Keys
+      有些时候你可以需要：按下 `Ctrl + d` 组合键来做些什么
+      在 2.1.0 之后Vue提供了
+        .ctrl
+        .alt
+        .shift
+        .meta
+
+      例如：
+        // Alt + C
+        <input @keyup.alt.67="clear">
+
+        // Ctrl + Click
+        <div @click.ctrl="doSomething">Do something</div>
+    -->
+
+
+    <!-- Mouse Button Modifiers
+      如果你需要：按下 `ctrl+鼠标左键` 来做些什么
+      在2.2.0之后提供了
+        .left
+        .right
+        .middle
+    -->
+
+
+    <!-- Why Listeners in HTML?
+      Vue 通过 `v-on` 的方式写在模板里，这似乎违背了 "separation of concerns" 的理念
+      更多自己去看看官方文档！
+    -->
+</div>
+<script src="vue.js"></script>
+<script>
+
+</script>

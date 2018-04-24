@@ -1,0 +1,120 @@
+<div id="app">
+
+  <!-- Class and Style Bindings
+    我们通常要处理某个元素的 class list 或 inline style
+    例如：
+      <p class="demo1, demo2"></p>
+      <p style="background: red;"></p>
+
+    因为这两个都属于attribute，所以我们可以通过 v-bind:attribute 来处理！
+    我们也知道 v-bind:attr="string"，不能接收 {{}}
+
+    所以Vue在 v-bind:class, v-bind:style 这两个熟悉的时候提供了 object/array 的语法支持
+
+    #object syntax
+    ```
+      <p v-bind:class="{ active: isActive, 'text-error': hasError }"></p>
+      在你的data object有：
+      data: {
+        isActive: true,
+        hasError: true
+      }
+
+      你会得到：
+      <p class="active text-error"></p>
+
+      ============================
+      当然，{ active: isActive, 'text-error': hasError } - bound object 不一定要写在模板里面
+      也可以写在 vm data object里：
+      data: {
+        classObject: {
+          active: true,
+          'text-error': false
+        }
+      }
+
+      <p v-bind:class="classObject"></p>
+      你会得到：
+      <p class="active"></p>
+
+      =============================
+      同样的，classObject 也可以为 `computed property` - 根据某些条件计算而来
+      data: {
+        isActive: true,
+        error: null
+      },
+      computed: {
+        classObject: function () {
+          return {
+            active: this.isActive && !this.error,
+            'text-danger': this.error && this.error.type === 'fatal',
+          }
+        }
+      }
+    ```
+
+    #array syntax
+    ```
+      <div v-bind:class="[activeClass, errorClass]">
+
+      在你 vm data object 里：
+      data: {
+        activeClass: 'active',
+        errorClass: 'text-danger'
+      }
+
+      你会得到：
+      <div class="active, text-danger"></div>
+
+      你也可以根据某些逻辑（通过ternary expression）
+      <div v-bind:class="[isActive ? activeClass : '', errorClass]">
+
+      如果你需要多重判断逻辑，你还可以在array里面使用object:
+      <div v-bind:class="[{ active: isActive }, errorClass]">
+    ```
+
+
+    Binding Inline Styles
+
+    #Object syntax
+    可以使用 camelCase 或 'kebab-case'
+
+    <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }"></div>
+
+    在你vm data object:
+    data: {
+      activeColor: 'red',
+      fontSize: 30
+    }
+
+    通常建议你保持模板的简洁，所以比较建议你把 bound object 写在 data object 或 computed property
+    <div v-bind:style="styleObject"></div>
+
+    data: {
+      styleObject: {
+        color: 'red',
+        fontSize: '13px'
+      }
+    }
+
+    #Array syntax
+    运行你为某个元素帮多个styleObject
+    <p v-bind:style="[baseStyles, overridingStyles]"></p>
+
+    data: {
+      baseStyles: {
+        color: 'red'
+      },
+      overridingStyles: {
+        color: '#ddd'
+      }
+    }
+
+    注意当你使用一些css property需要prefixing（例如：transform），vue会自动帮你加上去！
+  -->
+</div>
+
+<script src="vue.js"></script>
+<script>
+
+</script>

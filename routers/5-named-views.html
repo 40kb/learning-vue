@@ -1,0 +1,41 @@
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+<style>
+  .box {
+    padding: 20px;
+    background: #e3e3e3;
+    margin-bottom: 10px;
+  }
+  .button {
+    display: block;
+    padding: 5px 10px;
+    background: #6867EF;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: none;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .button:hover {
+    color: #ffffff;
+  }
+</style>
+<script src="../assets/js/vue.js"></script>
+<script src="../assets/js/vue-router.js"></script>
+
+<div id="app">
+  <h1>Named Views</h1>
+
+  <router-link to="/home" class="button">visit home</router-link>
+  <router-link to="/other" class="button">other</router-link>
+
+  <!-- 路由渲染在哪里？ -->
+  <router-view class="box default"></router-view>
+  <router-view class="box sidebar" name="sidebar"></router-view>
+  <router-view class="box main" name="main"></router-view>
+  <router-view class="box footer" name="footer"></router-view>
+</div>
+
+<script src="./5-named-views.js"></script>

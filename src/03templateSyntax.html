@@ -1,0 +1,128 @@
+<div id="app">
+
+  <!-- Interpolations -->
+
+  <!-- #Text -->
+  {{ msg }}
+
+  <!-- #Attributes
+    在attributes中不能使用 {{}} -> <p v-bind:id="{{ idName }}">{{ idName }}</p>
+  -->
+  <p v-bind:id="idName"> {{ idName }}</p>
+
+  <!-- #Raw HTML
+    但是要注意XSS攻击
+  -->
+  <div v-html="rawHtml"></div>
+
+
+  <!-- #Using JavaScript Expressions
+    只支持单行表达式（注意是表达式expression，不是语句statement)
+    可以访问一些'native' object 例如: Date, Math
+    但是不可以访问自己定义的全局变量
+
+    下面的是不支持的：
+      {{ var a = 1 }}
+      {{ if (ok) { return message } }}
+  -->
+  <div> {{ Date.now() }} </div>
+  <div>{{ ok ? 'YES' : 'NO' }}</div>
+  <div>{{ msg.split('').reverse().join('') }}</div>
+
+
+  <!-- Directives
+    Directive attribute values are expected to be a single JavaScript expression
+
+    值不能使用 {{}} -> <p v-if="{{ Date.now() }}"> {{ Date.now() }}</p>
+  -->
+  <p v-if="seen">Now you see me</p>
+
+  <!-- #Arguments
+    v-bind:argument -> <a v-bind:href="url">
+    例如：v-bind:id, v-bind:href, v-on:click
+  -->
+  <a v-bind:href="url">visit GOOGLE</a>
+  <br>
+  <a v-bind:demo="url">test another arguments</a>
+  <br>
+  <a v-on:click="doSomething">click me!</a>
+
+  <!-- # Modifiers
+    v-on:argument.modifier
+
+    常在 v-model，v-on中见到
+    例如：v-on:submit.prevent
+  -->
+  <form v-on:submit.prevent="onSubmit"></form>
+
+
+  <!-- #Filters
+    通常于common text formatting
+    用在两个地方：mustache interpolations and `v-bind` expressions
+      - {{ message | capitalize }}
+      - <div v-bind:id="rawId | formatId"></div>
+
+    vue2.x 之后 filters 只允许用在这两个地方，
+    because filters are primarily designed for text transformation purposes.
+
+    对于一些复杂的 data transforms 你应该用 computed properties 代替
+
+    filter 函数的第一个入参，总是为 '|' 符号前面表达式的值
+
+    Filters can be chained
+    {{ message | filterA | filterB }}
+
+    实际上filters就是JS函数，所以它能够接收入参
+    {{ message | filterA('arg1', arg2) }}
+    这里要注意的是：'arg1' 为 filterA函数的第二个入参，arg2为第三个入参，message的值为第一个入参！
+  -->
+
+
+  <!-- Shorthands
+    对两个常用的directives提供了shorthand
+      - v-bind -> :  v-bind:href === :href
+      - v-on   -> @  v-on:click  === @click
+  -->
+  <a v-bind:href="url"></a>
+  <br>
+  <a :href="url"></a>
+
+  <a v-on:click="doSomething"></a>
+  <br>
+  <a @click="doSomething"></a>
+
+</div>
+
+<script src="vue.js"></script>
+
+<script>
+
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      msg: 'Lorem ipsum dolor sit amet.',
+      idName: 'demo',
+      rawHtml: '<p>RAW HTML</p>',
+      ok: true,
+      seen: true,
+      url: 'https://www.google.com/ncr'
+    },
+    methods: {
+      doSomething: function() {
+        alert('done!')
+      },
+
+      onSubmit: function() {
+        alert('submitted!')
+      }
+    },
+
+    filters: {
+      capitalize: function (value) {
+        if (!value) return ''
+        value = value.toString()
+        return value.charAt(0).toUpperCase() + value.slice(1)
+      }
+    }
+  })
+</script>

@@ -1,0 +1,73 @@
+<div id="app">
+  <p>Lorem ipsum dolor sit Vel, minima.</p>
+  <todo-item v-model="value"></todo-item>
+
+  <p>{{ value }}</p>
+</div>
+
+<template id="inputField">
+  <div>
+    <input type="text" placeholder="请输入***" v-model="inputValue" @input="detectValue" @blur="hideCloseBtn">
+    <span @click="clear" v-show="show">X</span>
+  </div>
+</template>
+
+<script src="vue.js"></script>
+<script>
+  Vue.component('todo-item', {
+    props: ['value'],
+
+    // template: `
+    //   <div>
+    //     <input type="text" placeholder="请输入***" v-model="inputValue">
+    //     <span @click="clear" v-show="inputValue">X</span>
+    //   </div>
+    // `,
+
+    template: '#inputField',
+    data: function() {
+      return {
+        inputValue: '',
+        show: false
+      }
+    },
+    methods: {
+      detectValue: function() {
+        if ( this.inputValue ) {
+          this.show = true
+        } else {
+          this.show = false
+        }
+      },
+
+      hideCloseBtn: function() {
+        if ( this.inputValue ) {
+          this.show = false
+        }
+        console.log('change this.show = false')
+      },
+
+      clear: function() {
+        this.inputValue = ''
+        this.hideCloseBtn()
+      }
+    },
+    watch: {
+      'inputValue': function() {
+        this.$emit('input', this.inputValue);
+      }
+    },
+    created: function() {
+      this.inputValue = this.value;
+    }
+  })
+
+  var vm = new Vue({
+    el: '#app',
+    data() {
+      return {
+        value: 'lorem'
+      }
+    }
+  })
+</script>

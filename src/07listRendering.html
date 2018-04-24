@@ -1,0 +1,183 @@
+<div id="example-1">
+
+  <!-- #v-for
+
+    #Array `v-for`
+    ```
+      最基础的用法：
+      <ul>
+        <li v-for="item in items">
+          {{ item.message }}
+        </li>
+      </ul>
+
+      也可以使用 `of` 代替 `in`
+      <ul>
+        <li v-for="item of items">
+          {{ item.message }}
+        </li>
+      </ul>
+
+      also supports an optional second argument for the index of the current item.
+      支持第二个入参，作为当前item的index
+      <ul>
+        <li v-for="(item, index) in items">
+          {{ item.message }} - {{ item.index }}
+        </li>
+      </ul>
+
+      像v-if一样，当你需要渲染多个元素的时候，需要用<template>来括起来：
+      <ul>
+        <template v-for="item in items">
+          <li>{{ item.message }}</li>
+          <li class="divider"></li>
+        </template>
+      </ul>
+    ```
+
+
+    #Object `v-for` - iterate through the properties of an object
+    ```
+      最基本用法：
+      <ul>
+        <li v-for="value in object">
+          {{ value }}
+        </li>
+      </ul>
+
+
+      also provide a second argument for the key:
+      同样可以传入第二个参数作为当前 property 的 key
+      <div v-for="(value, key) in object">
+        {{ key }} : {{ value }}
+      </div>
+
+      可以传入第三个参数作为当前 property 的 index
+      <div v-for="(value, key, index) in object">
+        {{ index }}. {{ key }} : {{ value }}
+      </div>
+
+      **
+      *注意：v-for用在Object的时候，顺序是基于 `Object.key()` 的结果，
+      *每个JS引擎实现的效果有别，所以不保证在所有浏览器下输出的顺序是一致的
+      **
+    ```
+
+
+    #Range `v-for` - 某段范围的整数
+    ```
+      <div>
+        <span v-for="n in 10">{{ n }}</span>
+      </div>
+    ```
+
+
+    #Components and `v-for`
+    看官网例子！建议熟悉Component之后再回头看
+
+
+    #v-for with v-if - 这两个指令同时使用的时候
+    v-for 比 v-if 有更高的优先权：means the `v-if` will be run on each iteration of the loop separately.
+
+    经常会用在 `当某些条件成立的时候再渲染出来` 的情境下：
+    <li v-for="todo in todos" v-if="!todo.isComplete">
+      {{ todo }}
+    </li>
+
+
+    #`key`
+    看官网例子！
+
+
+
+    Array Change Detection
+    当你使用下面这些方法(都为Mutation Methods)来改变array的时候也会触发 view update
+      - push()
+      - pop()
+      - shift()
+      - unshift()
+      - splice()
+      - sort()
+      - reverse()
+
+    Mutation Methods: mutate the original array they are called on.
+    在原来的array上做出相应的变更！
+
+    当然也存在一些non-mutating methods
+      - filter()
+      - concat()
+      - slice()
+    do not mutate the original Array but **always return a new array**
+    没有在原来的array上做任何动作，而是返回一个新的array
+    所以在使用 non-mutating methods的时候你完全可以用新的array替换掉原来的array
+
+    你可能会想这样做会不会造成Vue去重新渲染一遍整个list，答案是Vue会帮你做好最大程度的DOM reuse!
+    这种情景下你不用担心性能上的问题！
+
+    #Caveats
+    Vue不能检查到下面两种情况的发生：
+      - When you directly set an item with the index（你直接通过index来给array设值）
+        例如：m.items[indexOfItem] = newValue
+      - When you modify the length of the array（你改变array的长度）
+        例如：vm.items.length = newLength
+
+    对于第一个问题，你可以通过下面的做法：
+      - Vue.set(example1.items, indexOfItem, newValue)
+      - example1.items.splice(indexOfItem, 1, newValue)
+
+    对于第二个问题，你可以通过下面的做法：
+      - example1.items.splice(newLength)
+
+
+
+    Displaying Filtered/Sorted Results
+    有些时候你想输出通过某些条件过滤掉、或根据某些规则进行排序后的array,并且是不在原来array操作的情况下
+    这个时候你可以通过 computed property 的方式来实现。
+    ```
+      <li v-for="n in evenNumbers">{{ n }}</li>
+
+      在你vm 里：
+      data: {
+        numbers: [ 1, 2, 3, 4, 5 ]
+      },
+      computed: {
+        evenNumbers: function () {
+          return this.numbers.filter(function (number) {
+            return number % 2 === 0
+          })
+        }
+      }
+
+      当你通过 computed property 无法实现的时候，你还可以通过 methods 的方式
+      data: {
+        numbers: [ 1, 2, 3, 4, 5 ]
+      },
+      methods: {
+        even: function (numbers) {
+          return numbers.filter(function (number) {
+            return number % 2 === 0
+          })
+        }
+      }
+
+    ```
+  -->
+</div>
+
+<script src="vue.js"></script>
+<script>
+  var example1 = new Vue({
+    el: '#example-1',
+    data: {
+      items: [
+        { message: 'Foo' },
+        { message: 'Bar' }
+      ],
+      object: {
+        firstName: 'John',
+        lastName: 'Doe',
+        age: 30
+      }
+    }
+  })
+</script>

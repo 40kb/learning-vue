@@ -1,0 +1,73 @@
+<div id="app">
+
+  <!-- v-if
+    使用 Handlebars template的时候你需要：
+    {{ #if ok }}
+      <h1>OK</h1>
+    {{ /if }}
+
+    使用 v-if directive 会让你模板更简洁：
+    <h1 v-if="ok">OK</h1>
+
+    但是当你要toggle多个元素的时候怎么做？
+    使用一个不可见的 <template> tag 把多个元素包起来，然后v-if使用在这个template tag上：
+    <template v-if="ok">
+      <h1>Title</h1>
+      <p>Paragraph 1</p>
+      <p>Paragraph 2</p>
+    </template>
+
+    （浏览器渲染的时候，不会把template输出来！）
+  -->
+
+
+  <!-- v-else
+    必须紧跟在 v-if 之后才会有效！
+
+    <div v-if="ok">OK</div>
+    <div v-else>NOT OK</div>
+  -->
+
+
+  <!-- v-else-if
+    Vue2.1.0版本之后才有，必须紧跟在v-if之后才有效！
+    可以chained！
+
+    <div v-if="type === 'A'">A</div>
+    <div v-else-if="type === 'B'">B</div>
+    <div v-else-if="type === 'C'">C</div>
+    <div v-else>D</div>
+  -->
+
+
+  <!-- Controlling Reusable Elements with `key`
+    去官网看例子！
+  -->
+
+
+  <!-- v-show
+    它的效果和 v-if 一样！
+    不同在于：
+      v-show 总会被render，节点总是保留在DOM上面（只是去改变CSS display property）
+      v-show 在 <template> 上并不起作用，v-else 紧跟在 v-show后面也不起效果（2.0版本之后），1.0版本是可以的！
+
+      v-if   会把节点从DOM上移除/新添加！
+      v-if   在init render的时候，如果为false则vue不会去处理这部分（不会把这部分渲染到DOM, v-show会！）
+             直到某些条件触发为true的时候，才会把这部分节点渲染到DOM上！
+
+    所以：
+      `v-if` has higher toggle costs
+      `v-show` has higher initial render costs
+    当你经常做toggle动作的时候（其它情况你可以使用v-if）
+
+
+    **注意，当 v-if 和 v-for 一起使用的时候，v-for 比 v-if 有更高的优先权！**
+  -->
+</div>
+
+<script src="vue.js"></script>
+<script>
+  var vm = new Vue({
+    el: '#app'
+  })
+</script>

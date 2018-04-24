@@ -1,0 +1,56 @@
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+<style>
+  h1 {
+    font-size: 24px;
+    padding: 15px 0;
+  }
+
+  h2 {
+    font-size: 20px;
+    text-align: center;
+    padding: 0;
+  }
+
+  .box {
+    padding: 20px;
+    background: #ED5F5E;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+
+  .button {
+    display: block;
+    padding: 10px 10px;
+    background: #6867EF;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: none;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .button:hover {
+    color: #ffffff;
+  }
+</style>
+<script src="../assets/js/vue.js"></script>
+<script src="../assets/js/vue-router.js"></script>
+
+<div id="app">
+  <h1>Navigation Guards</h1>
+
+  <h2>Router</h2>
+  <router-link to="/home" class="button">visit home</router-link>
+  <router-link to="/other" class="button">other</router-link>
+
+  <h2>Views</h2>
+  <!-- 路由渲染在哪里？ -->
+  <router-view class="box"></router-view>
+  <router-view class="box" name="main"></router-view>
+  <router-view class="box" name="sidebar"></router-view>
+  <router-view class="box" name="footer"></router-view>
+</div>
+
+<script src="./6-navigation-guards.js"></script>

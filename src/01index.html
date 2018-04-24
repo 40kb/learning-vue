@@ -1,0 +1,80 @@
+<div id="app" v-bind:title="message">
+  {{ message }}
+
+  <p v-if="seen">Now you see me!</p>
+
+  <ol>
+    <li v-for="todo in todos">
+      {{ todo.title }}
+    </li>
+  </ol>
+
+  <button v-on:click="reverseMessage">REVERSEMESSAGE</button><br>
+
+  <input v-model="message">
+
+  <!-- component -->
+  <ol>
+    <!-- <todo-item></todo-item> -->
+    <todo-item v-for="item in todos" v-bind:todo="item"></todo-item>
+
+    <!-- <todo-item v-for="todo in todos" v-bind:todo="todo"></todo-item> -->
+    <!--
+      上面 item/todo 你可以根据实际情况去取名
+      v-bind:todo="item" 的意思是说，你把这个变量绑到，组件接收的某个property
+      这里是：组件props里的todo就指向到parent scope里todos的item
+    -->
+  </ol>
+</div>
+
+<script src="vue.js"></script>
+<script>
+  Vue.component('todo-item', {
+    props: ['todo'],
+    // template: '<h2>hard code here!</h2>'
+    template: '<li>{{ todo.title }}</li>'
+  })
+
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'Lorem ipsum dolor sit amet.',
+      seen: true,
+      todos: [
+        { title: 'aaa', name: 'd1' },
+        { title: 'bbb', name: 'd2' },
+        { title: 'ccc', name: 'd3' }
+      ]
+    },
+    methods: {
+      reverseMessage: function() {
+        // inside Vue instance method, this alway point to `this instance`
+        this.message = this.message.split('').reverse().join('')
+      }
+    }
+  })
+
+</script>
+
+<!--
+  ## interpolation
+  {{ message }}
+  v-bind:attr="data.property"
+
+  ## directive
+  v-if
+  v-for
+
+  ## Handling user input
+  v-on - directive to attach event listener
+  v-on:click="methodName"
+
+  v-model - directive that makes two-way binding between form input and app state a breeze
+
+
+  ## components
+    - a component is essentially a Vue instance with pre-defined options
+    - We should be able to pass data from the parent scope into child components - `props`
+    - register before use
+    - You may have noticed that Vue components are very similar to Custom Elements(有哪些区别？)
+-->

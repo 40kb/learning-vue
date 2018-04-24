@@ -1,0 +1,94 @@
+<div id="app">
+
+  <!-- Computed Properties
+    {{ 这里面只能写一条语句，如果语句过于复杂就好让模板臃肿 }}
+    所以对于复杂的逻辑，你应该选用 `computed property` 的方式
+  -->
+
+  <p>{{ message.split('').reverse().join('') }}</p>
+  <p>{{ reverseMessage }}</p>
+
+  <!-- Computed Caching vs Methods
+    你会发现上面的 reverseMessage 用 `Methods` 的方式也同样可以实现
+
+    那两种方式有什么区别？
+    `computed properties are cached based on their dependencies.`
+    就是说：
+      - 当re-render的时候，Vue 发现它依赖的 data property 没有发生变化，`computed property` 会有使用上一次的cache！
+      - 而 `method invocation` 当 re-render 的时候总是会重新执行！
+  -->
+
+  <!-- Computed vs Watched Property
+    当你意识到某些data的变化是依赖另外的data的时候，可以使用 `watch property` 来实现
+    但是你要避免过度使用，如果你写过angularJS你很容易会过度使用 watch property
+
+    尽量使用 computed property 来实现，因为它更简洁！
+  -->
+  <p>{{ reverseMessage() }}</p>
+
+
+  <!-- Computed Setter
+    computed property 默认为 getter-only，但是你可以根据自己需要添加 setter 功能
+  -->
+
+
+
+  <!-- Watchers
+    `computed property` 能满足绝大多数的情况，但有时候比如：asynchronous 或 expensive operations，你可能需要一个 `watcher`
+    你也可以使用 vm.$watch API
+  -->
+
+</div>
+
+<script src="vue.js"></script>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      message: 'Lorem ipsum dolor sit amet.',
+      firstName: 'John',
+      lastName: 'Doe',
+      fullName: '',
+      question: '',
+      answer: 'i cannot give you an answer until you ask a question!'
+    },
+    computed: {
+      // a computed getter
+      reverseMessage: function() {
+        // `this` points to the vm instance
+        return this.message.split('').reverse().join('')
+      },
+
+      fullName: function() {
+        // getter
+        get: function() {
+          return this.firstName + ' ' + this.lastName
+        },
+
+        // setter
+        set: function(newValue) {
+          var names = newValue.split('')
+          this.firstName = names[0]
+          this.lastName = names[names.length -1]
+        }
+      },
+
+      getAnswer: function() {
+        console.log('...')
+      }
+    },
+    methods: {
+      reverseMessage: function() {
+        return this.message.split('').reverse().join('')
+      }
+    },
+
+    watch: {
+      // whenever question changes, this function will run
+      question: function(newQuestion) {
+        this.answer = 'Waiting for you to stop typing...'
+        this.getAnswer()
+      }
+    }
+  });
+</script>

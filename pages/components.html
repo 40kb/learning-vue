@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <my-cmp></my-cmp>
+    <my-cmp></my-cmp>
+  </div>
+  <script src="../assets/js/vue.js"></script>
+
+  <script>
+    // create component -- are extending vue instance
+
+    // let data = { status: 'Critical' }
+
+    Vue.component('my-cmp', {
+      data() {
+        return {
+          status: 'Critical'
+        }
+
+        // 注意这个问题：
+        // let data = { status: 'Critical' }
+        // return data
+      },
+
+      template: '<p>Server Status: {{ status }} <button @click="changeStatus">change</button></p>',
+
+      methods: {
+        changeStatus() {
+          this.status = 'Normal'
+        }
+      }
+    })
+
+    // vue instance
+    new Vue({
+      el: '#app'
+    })
+
+    /*
+      Registering Components Locally and Globally
+        - Globally
+          Vue.component('my-cmp', {})
+        - Locally
+          let cmp = {
+            name: '',
+            data() {
+              return {}
+            },
+            template: '.....'
+          }
+
+          new Vue({
+            components: {
+              'my-cmp': cmp
+            }
+          })
+
+      The root component in the App.vue
+        import Vue from 'vue'
+        import App from './App.vue'
+
+        new Vue({
+          el: '#app',
+          render: h => h(App)
+        })
+     */
+
+  </script>
+</body>
+</html>

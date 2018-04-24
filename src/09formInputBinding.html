@@ -1,0 +1,113 @@
+<div id="app">
+
+  <!-- Basic Usage
+    把 `v-model` 用在 input/textarea 来实现 data two-way binding
+    事实上，v-model 只不过是 user input event 的 syntax sugar 加上一些特别处理的edge case
+
+    注意：
+    `v-model` doesn’t care about the initial value provided to an input or a textarea.
+    It will always treat the Vue instance data as the source of truth.
+
+    #Text
+      <input v-model="message" placeholder="edit me">
+      <p>Message is: {{ message }}</p>
+
+
+    #Multiline text - 使用 <textarea>
+      <span>Multiline message is:</span>
+      <p>{{ message }}</p>
+      <br>
+      <textarea v-model="message" placeholder="add multiple lines"></textarea>
+
+      特别注意的是：<textarea>{{text}}</textarea> 这样是没用的！使用`v-model`，如上面一行
+
+
+      #Checkbox
+        单个checkbox
+          <input type="checkbox" id="checkbox" v-model="checked">
+          <label for="checkbox">{{ checked }}</label>
+
+          data: {
+            checked: false  // boolean
+          }
+
+        多个checkbox
+          <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+          <label for="jack">Jack</label>
+          <input type="checkbox" id="john" value="John" v-model="checkedNames">
+          <label for="john">John</label>
+          <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+          <label for="mike">Mike</label>
+          <br>
+          <span>Checked names: {{ checkedNames }}</span>
+
+          data: {
+            checkedNames: [] // value
+          }
+
+
+      #Radio
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>Picked: {{ picked }}</span>
+
+        data: {
+          picked: '' // value
+        }
+
+
+      #Select
+        Single select
+          <select v-model="selected">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+          </select>
+          <span>Selected: {{ selected }}</span>
+
+          data: {
+            selected: '' // option value
+          }
+
+        Multiple select (bound to Array):
+          <select v-model="selected" multiple>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+          </select>
+          <br>
+          <span>Selected: {{ selected }}</span>
+
+          data: {
+            selected: [] // option value
+          }
+
+        很多时候你需要把从API得到的array，用<select>渲染出来
+          <select v-model="selected">
+            <option v-for="option in options" v-bind:value="option.value">
+              {{ option.text }}
+            </option>
+          </select>
+          <span>Selected: {{ selected }}</span>
+
+          data: {
+            selected: 'A',
+            options: [
+              { text: 'One', value: 'A' },
+              { text: 'Two', value: 'B' },
+              { text: 'Three', value: 'C' }
+            ]
+          }
+
+
+    Value Bindings
+      看官方文档
+  -->
+</div>
+
+<script src="vue.js"></script>
+<script></script>
